@@ -10,23 +10,24 @@ import (
 )
 
 func FindUserByEmail(email string) (models.User, bool, string) {
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()
 
-	db := MongoConnection.Database("Twittor")
-	collection := db.Collection("usuarios")
+	collection := MongoConnection.Database("Twittor").Collection("Users")
 
-	condition := bson.M{"email": email}
+	filter := bson.M{
+		"email": email,
+	}
 
 	var userDb models.User
 
-	err := collection.FindOne(ctx, condition).Decode(&userDb)
+	err := collection.FindOne(ctx, filter).Decode(&userDb)
 	Id := userDb.ID.Hex()
 	if err != nil {
 		return userDb, false, Id
 	}
 
-	return userDb, false, Id
+	return userDb, true, Id
 
 }

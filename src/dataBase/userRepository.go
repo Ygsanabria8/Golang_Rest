@@ -10,12 +10,11 @@ import (
 )
 
 func CreateUser(user models.User) (string, bool, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()
 
-	db := MongoConnection.Database("Twittor")
-	collection := db.Collection("usuarios")
+	collection := MongoConnection.Database("Twittor").Collection("Users")
 
 	user.Password, _ = EncrypPassword(user.Password)
 

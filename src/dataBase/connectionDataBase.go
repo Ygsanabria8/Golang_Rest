@@ -14,6 +14,7 @@ var clientOptions = options.Client().ApplyURI("mongodb+srv://go_rest:Technic1136
 
 // ConnectMongoDb make connection with database
 func ConnectMongoDb() *mongo.Client {
+	clientOptions.SetMaxPoolSize(50)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
