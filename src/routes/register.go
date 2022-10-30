@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	database "modules/src/dataBase"
+	dataBase "modules/src/dataBase"
 	models "modules/src/models"
 )
 
@@ -29,14 +29,14 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, userExist, _ := database.FindUserByEmail(user.Email)
+	_, userExist, _ := dataBase.FindUserByEmail(user.Email)
 
 	if userExist {
 		http.Error(w, "The email already used", 400)
 		return
 	}
 
-	_, status, err := database.CreateUser(user)
+	_, status, err := dataBase.CreateUser(user)
 	if err != nil {
 		http.Error(w, "Error ocurred saving user: "+err.Error(), 500)
 		return

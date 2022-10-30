@@ -31,6 +31,7 @@ func createRoutes() *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/register", middleWares.CheckConnectionDataBase(routes.RegisterUser)).Methods("POST")
+	router.HandleFunc("/login", middleWares.CheckConnectionDataBase(routes.Login)).Methods("POST")
 
 	return router
 }
