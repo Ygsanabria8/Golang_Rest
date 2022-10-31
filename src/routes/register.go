@@ -15,24 +15,24 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Error in body: "+err.Error(), 400)
+		http.Error(w, "Error in body: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	if len(user.Email) == 0 {
-		http.Error(w, "Email is required", 400)
+		http.Error(w, "Email is required", http.StatusBadRequest)
 		return
 	}
 
 	if len(user.Password) < 6 {
-		http.Error(w, "Password have to be more than six characters", 400)
+		http.Error(w, "Password have to be more than six characters", http.StatusBadRequest)
 		return
 	}
 
 	_, userExist, _ := dataBase.FindUserByEmail(user.Email)
 
 	if userExist {
-		http.Error(w, "The email already used", 400)
+		http.Error(w, "The email already used", http.StatusBadRequest)
 		return
 	}
 

@@ -32,6 +32,7 @@ func createRoutes() *mux.Router {
 
 	router.HandleFunc("/register", middleWares.CheckConnectionDataBase(routes.RegisterUser)).Methods("POST")
 	router.HandleFunc("/login", middleWares.CheckConnectionDataBase(routes.Login)).Methods("POST")
+	router.HandleFunc("/profile", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(routes.Profile))).Methods("GET")
 
 	return router
 }

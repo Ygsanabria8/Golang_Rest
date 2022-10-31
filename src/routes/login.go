@@ -17,18 +17,18 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Invalid user or password: "+err.Error(), 400)
+		http.Error(w, "Invalid user or password: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	if len(user.Email) == 0 {
-		http.Error(w, "Email is required", 400)
+		http.Error(w, "Email is required", http.StatusBadRequest)
 		return
 	}
 
 	userDb, exist := dataBase.Login(user.Email, user.Password)
 	if !exist {
-		http.Error(w, "Invalid user or password: ", 400)
+		http.Error(w, "Invalid user or password: ", http.StatusBadRequest)
 		return
 	}
 
