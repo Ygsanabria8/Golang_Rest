@@ -1,4 +1,4 @@
-package routes
+package jwt
 
 import (
 	"errors"
@@ -6,6 +6,7 @@ import (
 
 	finder "modules/src/infrastructure/finder"
 	models "modules/src/models"
+	utils "modules/src/utils"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
@@ -14,7 +15,7 @@ var Email string
 var UserId string
 
 func ProccessToken(token string) (*models.Claim, bool, string, error) {
-	privateKey := []byte("apiresgolang")
+	privateKey := []byte(utils.Config.Jwt.Secret)
 
 	claims := &models.Claim{}
 

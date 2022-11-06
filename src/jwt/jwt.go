@@ -10,7 +10,7 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func GenerateJwt(user models.User) (string, error) {
+func GenerateJwt(user *models.User) (string, error) {
 
 	privateKey := []byte(utils.Config.Jwt.Secret)
 

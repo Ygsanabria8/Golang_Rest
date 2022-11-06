@@ -1,13 +1,14 @@
 package middleWares
 
 import (
-	routes "modules/src/routes"
 	"net/http"
+
+	jwt "modules/src/jwt"
 )
 
 func JwtValidation(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		_, _, _, err := routes.ProccessToken(r.Header.Get("Authorization"))
+		_, _, _, err := jwt.ProccessToken(r.Header.Get("Authorization"))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		}

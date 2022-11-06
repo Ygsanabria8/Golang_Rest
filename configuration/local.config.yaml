@@ -5,6 +5,7 @@ mongo:
   connectionString: "mongodb+srv://go_rest:Technic1136@bdlearning.okxfo5v.mongodb.net/?retryWrites=true&w=majority"
   database: "Twittor"
   users: "Users"
+  tweet: "tweet"
 
 jwt:
   secret: "apiresgolang"

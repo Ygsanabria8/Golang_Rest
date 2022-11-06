@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func FindUserByEmail(email string) (models.User, bool, string) {
+func FindUserByEmail(email string) (*models.User, bool, string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()
@@ -23,26 +23,26 @@ func FindUserByEmail(email string) (models.User, bool, string) {
 		"email": email,
 	}
 
-	var userDb models.User
+	var userDb *models.User
 
 	err := collection.FindOne(ctx, filter).Decode(&userDb)
 	Id := userDb.ID.Hex()
 	if err != nil {
-		return userDb, false, Id
+		return nil, false, Id
 	}
 
 	return userDb, true, Id
 
 }
 
-func FindUserById(id string) (models.User, error) {
+func FindUserById(id string) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()
 
 	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Users)
 
-	var userDb models.User
+	var userDb *models.User
 	objId, _ := primitive.ObjectIDFromHex(id)
 
 	filter := bson.M{
@@ -52,7 +52,7 @@ func FindUserById(id string) (models.User, error) {
 	err := collection.FindOne(ctx, filter).Decode(&userDb)
 	userDb.Password = ""
 	if err != nil {
-		return userDb, err
+		return nil, err
 	}
 
 	return userDb, nil

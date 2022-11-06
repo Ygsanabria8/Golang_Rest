@@ -8,6 +8,7 @@ type Config struct {
 		ConnectionString string `yaml:"connectionString"`
 		Database         string `yaml:"database"`
 		Users            string `yaml:"users"`
+		Tweet            string `yaml:"tweet"`
 	} `yaml:"mongo"`
 	Jwt struct {
 		Secret string `yaml:"secret"`

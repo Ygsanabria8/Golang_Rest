@@ -14,7 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateUser(user models.User) (string, bool, error) {
+func CreateUser(user *models.User) (*models.User, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()
@@ -25,22 +25,22 @@ func CreateUser(user models.User) (string, bool, error) {
 
 	result, err := collection.InsertOne(ctx, user)
 	if err != nil {
-		return "", false, err
+		return nil, false, err
 	}
 
 	objId, _ := result.InsertedID.(primitive.ObjectID)
-
-	return objId.String(), true, nil
+	user.ID = objId
+	return user, true, nil
 }
 
-func UpdateUser(user models.User, userId string) (bool, error) {
+func UpdateUser(user *models.User, userId string) (*models.User, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()
 
 	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Users)
 
-	newUser := models.User{
+	newUser := &models.User{
 		Name:      user.Name,
 		LastName:  user.LastName,
 		Avatar:    user.Avatar,
@@ -55,15 +55,17 @@ func UpdateUser(user models.User, userId string) (bool, error) {
 	objId, _ := primitive.ObjectIDFromHex(userId)
 	filter := bson.M{"_id": bson.M{"$eq": objId}}
 
+	newUser.ID = objId
+
 	_, err := collection.UpdateOne(ctx, filter, Obj)
 	if err != nil {
-		return false, err
+		return nil, false, err
 	}
 
-	return true, nil
+	return newUser, true, nil
 }
 
-func Login(email string, password string) (models.User, bool) {
+func Login(email string, password string) (*models.User, bool) {
 	user, exist, _ := finder.FindUserByEmail(email)
 
 	if !exist {

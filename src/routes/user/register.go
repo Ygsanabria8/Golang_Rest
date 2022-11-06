@@ -1,4 +1,4 @@
-package routes
+package user
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ import (
 // RegisterUser create a user in data base
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
 
-	var user models.User
+	var user *models.User
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -37,7 +37,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, status, err := repository.CreateUser(user)
+	userBD, status, err := repository.CreateUser(user)
 	if err != nil {
 		http.Error(w, "Error ocurred saving user: "+err.Error(), 500)
 		return
@@ -48,5 +48,8 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(&userBD)
+
 }

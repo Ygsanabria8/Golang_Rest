@@ -1,14 +1,15 @@
-package routes
+package user
 
 import (
 	"encoding/json"
 	repository "modules/src/infrastructure/repository"
+	jwt "modules/src/jwt"
 	models "modules/src/models"
 	"net/http"
 )
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	var user models.User
+	var user *models.User
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -17,8 +18,9 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var status bool
+	var newUser *models.User
 
-	status, err = repository.UpdateUser(user, UserId)
+	newUser, status, err = repository.UpdateUser(user, jwt.UserId)
 	if err != nil {
 		http.Error(w, "Error updating user"+err.Error(), http.StatusInternalServerError)
 	}
@@ -27,5 +29,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Cannot update user"+err.Error(), http.StatusBadRequest)
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(&newUser)
 }

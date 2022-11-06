@@ -9,7 +9,8 @@ import (
 	"github.com/rs/cors"
 
 	middleWares "modules/src/middleWares"
-	routes "modules/src/routes"
+	tweet "modules/src/routes/tweet"
+	user "modules/src/routes/user"
 	utils "modules/src/utils"
 )
 
@@ -31,10 +32,13 @@ func Handlers() {
 func createRoutes() *mux.Router {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/users/register", middleWares.CheckConnectionDataBase(routes.RegisterUser)).Methods("POST")
-	router.HandleFunc("/users/login", middleWares.CheckConnectionDataBase(routes.Login)).Methods("POST")
-	router.HandleFunc("/users/profile", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(routes.Profile))).Methods("GET")
-	router.HandleFunc("/users/update", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(routes.UpdateUser))).Methods("PUT")
+	// User Routes
+	router.HandleFunc("/users/register", middleWares.CheckConnectionDataBase(user.RegisterUser)).Methods("POST")
+	router.HandleFunc("/users/login", middleWares.CheckConnectionDataBase(user.Login)).Methods("POST")
+	router.HandleFunc("/users/profile", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.Profile))).Methods("GET")
+	router.HandleFunc("/users/update", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UpdateUser))).Methods("PUT")
 
+	// Tweet Routes
+	router.HandleFunc("/tweet/register", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.CreateTwet))).Methods("POST")
 	return router
 }
