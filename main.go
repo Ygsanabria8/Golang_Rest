@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	dataBase "modules/src/dataBase"
+	dataBase "modules/dataBase"
 	handlers "modules/src/handlers"
 )
 

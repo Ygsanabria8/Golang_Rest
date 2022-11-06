@@ -2,7 +2,7 @@ package routes
 
 import (
 	"encoding/json"
-	dataBase "modules/src/dataBase"
+	repository "modules/src/infrastructure/repository"
 	models "modules/src/models"
 	"net/http"
 )
@@ -18,7 +18,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	var status bool
 
-	status, err = dataBase.UpdateUser(user, UserId)
+	status, err = repository.UpdateUser(user, UserId)
 	if err != nil {
 		http.Error(w, "Error updating user"+err.Error(), http.StatusInternalServerError)
 	}

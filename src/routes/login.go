@@ -2,12 +2,11 @@ package routes
 
 import (
 	"encoding/json"
-	"net/http"
-	"time"
-
-	dataBase "modules/src/dataBase"
+	repository "modules/src/infrastructure/repository"
 	jwt "modules/src/jwt"
 	models "modules/src/models"
+	"net/http"
+	"time"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +25,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userDb, exist := dataBase.Login(user.Email, user.Password)
+	userDb, exist := repository.Login(user.Email, user.Password)
 	if !exist {
 		http.Error(w, "Invalid user or password: ", http.StatusBadRequest)
 		return

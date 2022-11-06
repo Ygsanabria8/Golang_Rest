@@ -1,13 +1,17 @@
-package dataBase
+package repository
 
 import (
 	"context"
 	"time"
 
+	dataBase "modules/dataBase"
+	finder "modules/src/infrastructure/finder"
 	models "modules/src/models"
+	utils "modules/src/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(user models.User) (string, bool, error) {
@@ -15,9 +19,9 @@ func CreateUser(user models.User) (string, bool, error) {
 
 	defer cancel()
 
-	collection := MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
 
-	user.Password, _ = EncrypPassword(user.Password)
+	user.Password, _ = utils.EncrypPassword(user.Password)
 
 	result, err := collection.InsertOne(ctx, user)
 	if err != nil {
@@ -34,7 +38,7 @@ func UpdateUser(user models.User, userId string) (bool, error) {
 
 	defer cancel()
 
-	collection := MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
 
 	newUser := models.User{
 		Name:      user.Name,
@@ -57,4 +61,22 @@ func UpdateUser(user models.User, userId string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func Login(email string, password string) (models.User, bool) {
+	user, exist, _ := finder.FindUserByEmail(email)
+
+	if !exist {
+		return user, false
+	}
+
+	passwordBytes := []byte(password)
+	passwordDb := []byte(user.Password)
+
+	err := bcrypt.CompareHashAndPassword(passwordDb, passwordBytes)
+	if err != nil {
+		return user, false
+	}
+
+	return user, true
 }

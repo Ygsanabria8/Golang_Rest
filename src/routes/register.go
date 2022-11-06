@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	dataBase "modules/src/dataBase"
+	finder "modules/src/infrastructure/finder"
+	repository "modules/src/infrastructure/repository"
 	models "modules/src/models"
 )
 
@@ -29,14 +30,14 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, userExist, _ := dataBase.FindUserByEmail(user.Email)
+	_, userExist, _ := finder.FindUserByEmail(user.Email)
 
 	if userExist {
 		http.Error(w, "The email already used", http.StatusBadRequest)
 		return
 	}
 
-	_, status, err := dataBase.CreateUser(user)
+	_, status, err := repository.CreateUser(user)
 	if err != nil {
 		http.Error(w, "Error ocurred saving user: "+err.Error(), 500)
 		return

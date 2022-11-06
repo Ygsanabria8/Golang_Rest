@@ -1,14 +1,14 @@
-package dataBase
+package finder
 
 import (
 	"context"
 	"time"
 
+	dataBase "modules/dataBase"
 	models "modules/src/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func FindUserByEmail(email string) (models.User, bool, string) {
@@ -16,7 +16,7 @@ func FindUserByEmail(email string) (models.User, bool, string) {
 
 	defer cancel()
 
-	collection := MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
 
 	filter := bson.M{
 		"email": email,
@@ -39,7 +39,7 @@ func FindUserById(id string) (models.User, error) {
 
 	defer cancel()
 
-	collection := MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
 
 	var userDb models.User
 	objId, _ := primitive.ObjectIDFromHex(id)
@@ -56,22 +56,4 @@ func FindUserById(id string) (models.User, error) {
 
 	return userDb, nil
 
-}
-
-func Login(email string, password string) (models.User, bool) {
-	user, exist, _ := FindUserByEmail(email)
-
-	if !exist {
-		return user, false
-	}
-
-	passwordBytes := []byte(password)
-	passwordDb := []byte(user.Password)
-
-	err := bcrypt.CompareHashAndPassword(passwordDb, passwordBytes)
-	if err != nil {
-		return user, false
-	}
-
-	return user, true
 }

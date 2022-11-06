@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	dataBase "modules/src/dataBase"
+	finder "modules/src/infrastructure/finder"
 )
 
 func Profile(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +14,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	profile, err := dataBase.FindUserById(ID)
+	profile, err := finder.FindUserById(ID)
 	if err != nil {
 		http.Error(w, "Error ocurred"+err.Error(), http.StatusBadRequest)
 		return

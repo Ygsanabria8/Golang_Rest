@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	dataBase "modules/src/dataBase"
+	finder "modules/src/infrastructure/finder"
 	models "modules/src/models"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -30,17 +30,17 @@ func ProccessToken(token string) (*models.Claim, bool, string, error) {
 	})
 
 	if err != nil {
-		return claims, false, string(""), err
+		return nil, false, string(""), err
 	}
 
 	if !tkn.Valid {
-		return claims, false, string(""), errors.New("invalod token")
+		return nil, false, string(""), errors.New("invalod token")
 	}
 
-	_, exist, _ := dataBase.FindUserByEmail(claims.Email)
+	_, exist, _ := finder.FindUserByEmail(claims.Email)
 
 	if !exist {
-		return claims, false, string(""), errors.New("invalid user")
+		return nil, false, string(""), errors.New("invalid user")
 	}
 
 	Email = claims.Email

@@ -1,7 +1,7 @@
 package middleWares
 
 import (
-	dataBase "modules/src/dataBase"
+	dataBase "modules/dataBase"
 	"net/http"
 )
 
