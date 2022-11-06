@@ -1,7 +1,7 @@
 package middleWares
 
 import (
-	"modules/src/routes"
+	routes "modules/src/routes"
 	"net/http"
 )
 

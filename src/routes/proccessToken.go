@@ -38,6 +38,7 @@ func ProccessToken(token string) (*models.Claim, bool, string, error) {
 	}
 
 	_, exist, _ := dataBase.FindUserByEmail(claims.Email)
+
 	if !exist {
 		return claims, false, string(""), errors.New("invalid user")
 	}

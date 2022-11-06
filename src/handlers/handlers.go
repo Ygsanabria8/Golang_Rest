@@ -30,9 +30,10 @@ func Handlers() {
 func createRoutes() *mux.Router {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/register", middleWares.CheckConnectionDataBase(routes.RegisterUser)).Methods("POST")
-	router.HandleFunc("/login", middleWares.CheckConnectionDataBase(routes.Login)).Methods("POST")
-	router.HandleFunc("/profile", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(routes.Profile))).Methods("GET")
+	router.HandleFunc("/users/register", middleWares.CheckConnectionDataBase(routes.RegisterUser)).Methods("POST")
+	router.HandleFunc("/users/login", middleWares.CheckConnectionDataBase(routes.Login)).Methods("POST")
+	router.HandleFunc("/users/profile", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(routes.Profile))).Methods("GET")
+	router.HandleFunc("/users/update", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(routes.UpdateUser))).Methods("PUT")
 
 	return router
 }

@@ -13,10 +13,10 @@ type User struct {
 	LastName  string             `bson:"lastName,omitempty" json:"lastName"`
 	DateBirth time.Time          `bson:"dateBirth,omitempty" json:"dateBirth"`
 	Email     string             `bson:"email" json:"email"`
-	Password  string             `bson:"password" json:"password,omitempty"`
-	Avatar    string             `bson:"avatar" json:"avatar,omitempty"`
-	Banner    string             `bson:"banner" json:"banner,omitempty"`
-	Biografy  string             `bson:"biography" json:"biography,omitempty"`
-	Location  string             `bson:"location" json:"location,omitempty"`
-	WebSite   string             `bson:"webSite" json:"webSite,omitempty"`
+	Password  string             `bson:"password,omitempty" json:"password,omitempty"`
+	Avatar    string             `bson:"avatar,omitempty" json:"avatar,omitempty"`
+	Banner    string             `bson:"banner,omitempty" json:"banner,omitempty"`
+	Biografy  string             `bson:"biography,omitempty" json:"biography,omitempty"`
+	Location  string             `bson:"location,omitempty" json:"location,omitempty"`
+	WebSite   string             `bson:"webSite,omitempty" json:"webSite,omitempty"`
 }
