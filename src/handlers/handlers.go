@@ -10,6 +10,7 @@ import (
 
 	middleWares "modules/src/middleWares"
 	routes "modules/src/routes"
+	utils "modules/src/utils"
 )
 
 // Handlers server configuration - Set port and listen server
@@ -18,7 +19,7 @@ func Handlers() {
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
-		PORT = "11000"
+		PORT = utils.Config.Server.Port
 	}
 
 	cors := cors.AllowAll().Handler(router)

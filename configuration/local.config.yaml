@@ -1,0 +1,13 @@
+server:
+  port: "11000"
+
+mongo:
+  connectionString: "mongodb+srv://go_rest:Technic1136@bdlearning.okxfo5v.mongodb.net/?retryWrites=true&w=majority"
+  database: "Twittor"
+  users: "Users"
+
+jwt:
+  secret: "apiresgolang"
+
+costencrypt: 8
+

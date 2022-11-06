@@ -19,7 +19,7 @@ func CreateUser(user models.User) (string, bool, error) {
 
 	defer cancel()
 
-	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Users)
 
 	user.Password, _ = utils.EncrypPassword(user.Password)
 
@@ -38,7 +38,7 @@ func UpdateUser(user models.User, userId string) (bool, error) {
 
 	defer cancel()
 
-	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Users)
 
 	newUser := models.User{
 		Name:      user.Name,

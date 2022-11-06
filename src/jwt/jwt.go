@@ -5,12 +5,14 @@ import (
 
 	models "modules/src/models"
 
+	utils "modules/src/utils"
+
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
 func GenerateJwt(user models.User) (string, error) {
 
-	privateKey := []byte("apiresgolang")
+	privateKey := []byte(utils.Config.Jwt.Secret)
 
 	payload := jwt.MapClaims{
 		"name":      user.Name,

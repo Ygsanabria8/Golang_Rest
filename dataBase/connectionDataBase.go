@@ -6,24 +6,26 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	utils "modules/src/utils"
 )
 
 // MongoConnection object connection to the data base
-var MongoConnection = ConnectMongoDb()
-var clientOptions = options.Client().ApplyURI("mongodb+srv://go_rest:Technic1136@bdlearning.okxfo5v.mongodb.net/?retryWrites=true&w=majority")
+var MongoConnection *mongo.Client
 
 // ConnectMongoDb make connection with database
-func ConnectMongoDb() *mongo.Client {
+func ConnectMongoDb() {
+	var clientOptions = options.Client().ApplyURI(utils.Config.Mongo.ConnectionString)
 	clientOptions.SetMaxPoolSize(50)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
 		log.Fatalf("Cannot connect with mongo db %v", err.Error())
-		return client
+		return
 	}
 
 	log.Println("Conected to mongo data base")
-	return client
+	MongoConnection = client
 }
 
 // CheckConnection verify connection to data base

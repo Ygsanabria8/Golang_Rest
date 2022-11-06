@@ -6,6 +6,7 @@ import (
 
 	dataBase "modules/dataBase"
 	models "modules/src/models"
+	utils "modules/src/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -16,7 +17,7 @@ func FindUserByEmail(email string) (models.User, bool, string) {
 
 	defer cancel()
 
-	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Users)
 
 	filter := bson.M{
 		"email": email,
@@ -39,7 +40,7 @@ func FindUserById(id string) (models.User, error) {
 
 	defer cancel()
 
-	collection := dataBase.MongoConnection.Database("Twittor").Collection("Users")
+	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Users)
 
 	var userDb models.User
 	objId, _ := primitive.ObjectIDFromHex(id)
