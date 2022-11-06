@@ -26,11 +26,11 @@ func FindUserByEmail(email string) (*models.User, bool, string) {
 	var userDb *models.User
 
 	err := collection.FindOne(ctx, filter).Decode(&userDb)
-	Id := userDb.ID.Hex()
 	if err != nil {
-		return nil, false, Id
+		return userDb, false, string("")
 	}
 
+	Id := userDb.ID.Hex()
 	return userDb, true, Id
 
 }
