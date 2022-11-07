@@ -35,7 +35,7 @@ func createRoutes() *mux.Router {
 	// User Routes
 	router.HandleFunc("/users/register", middleWares.CheckConnectionDataBase(user.RegisterUser)).Methods("POST")
 	router.HandleFunc("/users/login", middleWares.CheckConnectionDataBase(user.Login)).Methods("POST")
-	router.HandleFunc("/users/profile", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.Profile))).Methods("GET")
+	router.HandleFunc("/users/{userId}", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.Profile))).Methods("GET")
 	router.HandleFunc("/users/update", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UpdateUser))).Methods("PUT")
 
 	// Tweet Routes
