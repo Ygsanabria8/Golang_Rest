@@ -36,11 +36,11 @@ func createRoutes() *mux.Router {
 	router.HandleFunc("/users/register", middleWares.CheckConnectionDataBase(user.RegisterUser)).Methods("POST")
 	router.HandleFunc("/users/login", middleWares.CheckConnectionDataBase(user.Login)).Methods("POST")
 	router.HandleFunc("/users/{userId}", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.Profile))).Methods("GET")
-	router.HandleFunc("/users/update", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UpdateUser))).Methods("PUT")
+	router.HandleFunc("/users/{userId}", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UpdateUser))).Methods("PUT")
 
 	// Tweet Routes
-	router.HandleFunc("/tweets/register", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.CreateTwet))).Methods("POST")
-	router.HandleFunc("/tweets/user", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.GetTweetsUser))).Methods("GET")
-	router.HandleFunc("/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.DeleteTweet))).Methods("DELETE")
+	router.HandleFunc("/users/{userId}/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.CreateTwet))).Methods("POST")
+	router.HandleFunc("/users/{userId}/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.GetTweetsUser))).Methods("GET")
+	router.HandleFunc("/users/{userId}/tweets/{tweetId}", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.DeleteTweet))).Methods("DELETE")
 	return router
 }

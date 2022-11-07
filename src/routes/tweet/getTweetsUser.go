@@ -5,10 +5,13 @@ import (
 	"modules/src/infrastructure/finder"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func GetTweetsUser(w http.ResponseWriter, r *http.Request) {
-	userId := r.URL.Query().Get("user")
+	params := mux.Vars(r)
+	userId := params["userId"]
 
 	if len(userId) < 1 {
 		http.Error(w, "User Id is requiered", http.StatusBadRequest)

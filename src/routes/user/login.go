@@ -12,7 +12,7 @@ import (
 func Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
-	var user models.User
+	var user *models.User
 
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -33,7 +33,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	jwtKey, err := jwt.GenerateJwt(userDb)
 	if err != nil {
-		http.Error(w, "Error ocurrend generating tokent"+err.Error(), 500)
+		http.Error(w, "Error ocurrend generating tokent"+err.Error(), http.StatusInternalServerError)
 		return
 	}
 

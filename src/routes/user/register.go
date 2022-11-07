@@ -20,13 +20,9 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(user.Email) == 0 {
-		http.Error(w, "Email is required", http.StatusBadRequest)
-		return
-	}
-
-	if len(user.Password) < 6 {
-		http.Error(w, "Password have to be more than six characters", http.StatusBadRequest)
+	err = user.ValidateUserCreation()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

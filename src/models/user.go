@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -19,4 +20,19 @@ type User struct {
 	Biografy  string             `bson:"biography,omitempty" json:"biography,omitempty"`
 	Location  string             `bson:"location,omitempty" json:"location,omitempty"`
 	WebSite   string             `bson:"webSite,omitempty" json:"webSite,omitempty"`
+}
+
+func (user *User) ValidateUserCreation() error {
+	if user == nil {
+		return errors.New("User is required")
+	}
+
+	if len(user.Email) == 0 {
+		return errors.New("Email is required")
+	}
+
+	if len(user.Password) < 6 {
+		return errors.New("Password have to be more than six character")
+	}
+	return nil
 }

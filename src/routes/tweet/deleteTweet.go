@@ -2,18 +2,20 @@ package tweet
 
 import (
 	"modules/src/infrastructure/repository"
-	jwt "modules/src/jwt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func DeleteTweet(w http.ResponseWriter, r *http.Request) {
-	tweetId := r.URL.Query().Get("id")
+	params := mux.Vars(r)
+	tweetId := params["tweetId"]
 	if len(tweetId) < 1 {
 		http.Error(w, "Tweet Id is requiered", http.StatusBadRequest)
 		return
 	}
 
-	err := repository.DeleteTweet(tweetId, jwt.UserId)
+	err := repository.DeleteTweet(tweetId, params["userId"])
 	if err != nil {
 		http.Error(w, "Error deleting tweet: "+err.Error(), http.StatusBadRequest)
 		return

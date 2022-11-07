@@ -3,9 +3,10 @@ package user
 import (
 	"encoding/json"
 	repository "modules/src/infrastructure/repository"
-	jwt "modules/src/jwt"
 	models "modules/src/models"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
@@ -19,8 +20,9 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	var status bool
 	var newUser *models.User
+	params := mux.Vars(r)
 
-	newUser, status, err = repository.UpdateUser(user, jwt.UserId)
+	newUser, status, err = repository.UpdateUser(user, params["userId"])
 	if err != nil {
 		http.Error(w, "Error updating user"+err.Error(), http.StatusInternalServerError)
 	}

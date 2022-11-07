@@ -5,8 +5,9 @@ import (
 	"net/http"
 
 	repository "modules/src/infrastructure/repository"
-	jwt "modules/src/jwt"
 	models "modules/src/models"
+
+	"github.com/gorilla/mux"
 )
 
 func CreateTwet(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +19,8 @@ func CreateTwet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tweet.UserId = jwt.UserId
+	params := mux.Vars(r)
+	tweet.UserId = params["userId"]
 
 	tweetDB, status, err := repository.CreateTweet(tweet)
 	if err != nil {
