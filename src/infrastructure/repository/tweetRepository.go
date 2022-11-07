@@ -34,3 +34,21 @@ func CreateTweet(tweet *models.Tweet) (*models.Tweet, bool, error) {
 
 	return tweet, true, nil
 }
+
+func DeleteTweet(tweetId string, userId string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
+
+	defer cancel()
+
+	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Tweet)
+
+	objId, _ := primitive.ObjectIDFromHex(tweetId)
+
+	filter := bson.M{
+		"_id":    objId,
+		"userId": userId,
+	}
+
+	_, err := collection.DeleteOne(ctx, filter)
+	return err
+}

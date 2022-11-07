@@ -40,6 +40,7 @@ func createRoutes() *mux.Router {
 
 	// Tweet Routes
 	router.HandleFunc("/tweets/register", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.CreateTwet))).Methods("POST")
-	router.HandleFunc("/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.GetTweetsUser))).Methods("GET")
+	router.HandleFunc("/tweets/user", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.GetTweetsUser))).Methods("GET")
+	router.HandleFunc("/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.DeleteTweet))).Methods("DELETE")
 	return router
 }
