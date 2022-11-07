@@ -49,6 +49,7 @@ func UpdateUser(user *models.User, userId string) (*models.User, bool, error) {
 		Biografy:  user.Biografy,
 		Location:  user.Location,
 		WebSite:   user.WebSite,
+		Email:     user.Email,
 	}
 	Obj := bson.M{"$set": newUser}
 
