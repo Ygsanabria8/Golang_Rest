@@ -37,6 +37,10 @@ func createRoutes() *mux.Router {
 	router.HandleFunc("/users/login", middleWares.CheckConnectionDataBase(user.Login)).Methods("POST")
 	router.HandleFunc("/users/{userId}", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.Profile))).Methods("GET")
 	router.HandleFunc("/users/{userId}", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UpdateUser))).Methods("PUT")
+	router.HandleFunc("/users/{userId}/avatar", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadAvatar))).Methods("POST")
+	router.HandleFunc("/users/{userId}/avatar", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadAvatar))).Methods("GET")
+	router.HandleFunc("/users/{userId}/banner", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadBanner))).Methods("POST")
+	router.HandleFunc("/users/{userId}/banner", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadBanner))).Methods("GET")
 
 	// Tweet Routes
 	router.HandleFunc("/users/{userId}/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.CreateTwet))).Methods("POST")
