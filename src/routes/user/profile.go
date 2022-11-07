@@ -2,7 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	finder "modules/src/infrastructure/finder"
@@ -13,7 +12,6 @@ import (
 func Profile(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	ID := params["userId"]
-	fmt.Println(ID)
 	if len(ID) < 1 {
 		http.Error(w, "User id is mandatory", http.StatusBadRequest)
 		return
