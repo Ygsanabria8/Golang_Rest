@@ -8,9 +8,12 @@ import (
 
 func JwtValidation(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		_, _, _, err := jwt.ProccessToken(r.Header.Get("Authorization"))
+		status, err := jwt.ProccessToken(r.Header.Get("Authorization"))
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+		}
+		if !status {
+			http.Error(w, "Expired token", http.StatusUnauthorized)
 		}
 		next.ServeHTTP(w, r)
 	}

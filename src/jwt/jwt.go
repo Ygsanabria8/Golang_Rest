@@ -15,17 +15,11 @@ func GenerateJwt(user *models.User) (string, error) {
 	privateKey := []byte(utils.Config.Jwt.Secret)
 
 	payload := jwt.MapClaims{
-		"name":      user.Name,
-		"lastName":  user.LastName,
-		"dateBirth": user.DateBirth,
-		"email":     user.Email,
-		"avatar":    user.Avatar,
-		"banner":    user.Banner,
-		"Biografy":  user.Biografy,
-		"Location":  user.Location,
-		"WebSite":   user.WebSite,
-		"id":        user.ID.Hex(),
-		"exp":       time.Now().Add(time.Hour * 24).Unix(),
+		"name":     user.Name,
+		"lastName": user.LastName,
+		"email":    user.Email,
+		"id":       user.ID.Hex(),
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
