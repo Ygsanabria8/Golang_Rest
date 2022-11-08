@@ -6,6 +6,7 @@ mongo:
   database: "Twittor"
   users: "Users"
   tweet: "tweet"
+  follow: "follow"
 
 jwt:
   secret: "apiresgolang"

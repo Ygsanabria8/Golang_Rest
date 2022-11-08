@@ -13,7 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetTweetByUserId(userId string, page int64) ([]*models.Tweet, bool) {
+func FindTweetByUserId(userId string, page int64) ([]*models.Tweet, bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
 
 	defer cancel()

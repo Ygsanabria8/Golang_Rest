@@ -29,7 +29,7 @@ func GetTweetsUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tweets, status := finder.GetTweetByUserId(userId, int64(page))
+	tweets, status := finder.FindTweetByUserId(userId, int64(page))
 	if !status {
 		http.Error(w, "Error reading tweets", http.StatusInternalServerError)
 		return

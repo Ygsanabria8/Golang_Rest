@@ -9,6 +9,7 @@ import (
 	"github.com/rs/cors"
 
 	middleWares "modules/src/middleWares"
+	follow "modules/src/routes/follow"
 	tweet "modules/src/routes/tweet"
 	user "modules/src/routes/user"
 	utils "modules/src/utils"
@@ -41,6 +42,11 @@ func createRoutes() *mux.Router {
 	router.HandleFunc("/users/{userId}/avatar", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadAvatar))).Methods("GET")
 	router.HandleFunc("/users/{userId}/banner", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadBanner))).Methods("POST")
 	router.HandleFunc("/users/{userId}/banner", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadBanner))).Methods("GET")
+
+	// Follow
+	router.HandleFunc("/users/{userId}/follow", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(follow.CreateFollow))).Methods("POST")
+	router.HandleFunc("/users/{userId}/follow", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(follow.DeleteFollow))).Methods("DELETE")
+	router.HandleFunc("/users/{userId}/follow", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(follow.GetFollow))).Methods("GET")
 
 	// Tweet Routes
 	router.HandleFunc("/users/{userId}/tweets", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(tweet.CreateTwet))).Methods("POST")
