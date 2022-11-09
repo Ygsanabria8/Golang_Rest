@@ -1,7 +1,7 @@
 package models
 
 import (
-	"errors"
+	errors "errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -35,4 +35,13 @@ func (user *User) ValidateUserCreation() error {
 		return errors.New("Password have to be more than six character")
 	}
 	return nil
+}
+
+func (user *User) CleanUnnecessaryData() {
+	user.Password = ""
+	user.Biografy = ""
+	user.WebSite = ""
+	user.Location = ""
+	user.Banner = ""
+	user.Email = ""
 }

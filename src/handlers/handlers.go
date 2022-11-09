@@ -42,6 +42,7 @@ func createRoutes() *mux.Router {
 	router.HandleFunc("/users/{userId}/avatar", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadAvatar))).Methods("GET")
 	router.HandleFunc("/users/{userId}/banner", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadBanner))).Methods("POST")
 	router.HandleFunc("/users/{userId}/banner", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.UploadBanner))).Methods("GET")
+	router.HandleFunc("/users/{userId}/followed", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(user.GetFollowedUsers))).Methods("GET")
 
 	// Follow
 	router.HandleFunc("/users/{userId}/follow", middleWares.CheckConnectionDataBase(middleWares.JwtValidation(follow.CreateFollow))).Methods("POST")

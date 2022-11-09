@@ -23,9 +23,9 @@ func FindTweetByUserId(userId string, page int64) ([]*models.Tweet, bool) {
 	var tweets []*models.Tweet
 	filter := bson.M{"userId": userId}
 	options := options.Find()
+	options.SetSkip((page - 1) * 20)
 	options.SetLimit(20)
 	options.SetSort(bson.D{{Key: "CreatedAt", Value: -1}})
-	options.SetSkip((page - 1) * 20)
 
 	cursor, err := collection.Find(ctx, filter, options)
 	if err != nil {
