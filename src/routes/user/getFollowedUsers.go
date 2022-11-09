@@ -2,7 +2,7 @@ package user
 
 import (
 	"encoding/json"
-	"modules/src/infrastructure/finder"
+	finder "modules/src/infrastructure/finder"
 	"net/http"
 	"strconv"
 

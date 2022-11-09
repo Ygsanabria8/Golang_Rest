@@ -31,3 +31,37 @@ func FindFollow(follow *models.Follow) (bool, error) {
 
 	return true, nil
 }
+
+func GetTweetsFollowers(userId string, page int64) ([]models.TweetFollower, bool) {
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Second)
+
+	defer cancel()
+
+	collection := dataBase.MongoConnection.Database(utils.Config.Mongo.Database).Collection(utils.Config.Mongo.Follow)
+
+	skip := (page - 1) * 20
+
+	filter := make([]bson.M, 0)
+
+	filter = append(filter, bson.M{"$match": bson.M{"userId": userId}})
+	filter = append(filter, bson.M{
+		"$lookup": bson.M{
+			"from":         "tweet",
+			"localField":   "userFollowId",
+			"foreignField": "userId",
+			"as":           "tweet",
+		},
+	})
+	filter = append(filter, bson.M{"$unwind": "$tweet"})
+	filter = append(filter, bson.M{"$dort": bson.M{"CreatedAt:": -1}})
+	filter = append(filter, bson.M{"$skip": skip})
+	filter = append(filter, bson.M{"$limit": 20})
+
+	cursor, err := collection.Aggregate(ctx, filter)
+	var result []models.TweetFollower
+	err = cursor.All(ctx, result)
+	if err != nil {
+		return nil, false
+	}
+	return result, true
+}
